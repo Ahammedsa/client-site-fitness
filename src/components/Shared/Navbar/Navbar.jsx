@@ -19,6 +19,22 @@ const Navbar = () => {
                 height='100'
               />
             </Link>
+            <div className="navbae-center flex">
+              <Link
+                to='/all-trainer'
+                className='btn btn-ghost text-sm'
+              >
+                All Trainer
+              </Link>
+
+              <div className="">
+                <a className="btn btn-ghost text-sm">All Class</a>
+              </div>
+              <div className="">
+                <a className="btn btn-ghost  text-sm">Community</a>
+              </div>
+            </div>
+
             {/* Dropdown Menu */}
             <MenuDropdown />
           </div>

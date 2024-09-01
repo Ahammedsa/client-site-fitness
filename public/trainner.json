@@ -1,0 +1,62 @@
+[
+  {
+    "category": "Bodybuilding",
+    "trainer": {
+      "name": "John Iron",
+      "profile_image": "https://example.com/images/john_iron.jpg",
+      "years_of_experience": 10,
+      "description": "John Iron is a seasoned bodybuilding trainer with over a decade of experience in sculpting physiques. His training philosophy focuses on strength, muscle symmetry, and conditioning. John tailors ighly sought-after coach for those serious about transforming their bodies.",
+      "available_slots": ["Monday 10:00 AM - 12:00 PM", "Wednesday 2:00 PM - 4:00 PM", "Friday 4:00 PM - 6:00 PM"]
+    }
+  },
+  {
+    "category": "Musculation",
+    "trainer": {
+      "name": "Sarah Steel",
+      "profile_image": "https://example.com/images/sarah_steel.jpg",
+      "years_of_experience": 8,
+      "description": "Sarah Steel is an expert in musculation, with a focus th and muscular endurance. She believes in a balanced approach to training, combining heavy lifting with form. With her supportive and motivational style, Sarah ensures her clients reach their full potential.",
+      "available_slots": ["Tuesday 9:00 AM - 11:00 AM", "Thursday 3:00 PM - 5:00 PM", "Saturday 11:00 AM - 1:00 PM"]
+    }
+  },
+  {
+    "category": "Fitness Running",
+    "trainer": {
+      "name": "Mike Sprint",
+      "profile_image": "https://example.com/images/mike_sprint.jpg",
+      "years_of_experience": 7,
+      "description": "Mike Sprint is a dedicated running coach who specializes in improving endurance, speed, and overall fitness through running. With aand gradual progression to ensure long-term success. His passion for running is contagious, inspiring clients to push their limits.",
+      "available_slots": ["Monday 6:00 AM - 8:00 AM", "Wednesday 7:00 AM - 9:00 AM", "Friday 5:00 PM - 7:00 PM"]
+    }
+  },
+  {
+    "category": "Weight Lifting",
+    "trainer": {
+      "name": "Lisa Power",
+      "profile_image": "https://example.com/images/lisa_power.jpg",
+      "years_of_experience": 12,
+      "description": "Lisa Power is a highly experienced weightlifting coach with a passion for empowering individuals through strength training. She specializess, providing them with the tools and confidence to excel. Lisa’s dedication to her craft and her clients' success is unmatched.",
+      "available_slots": ["Tuesday 10:00 AM - 12:00 PM", "Thursday 1:00 PM - 3:00 PM", "Saturday 2:00 PM - 4:00 PM"]
+    }
+  },
+  {
+    "category": "Classic Yoga",
+    "trainer": {
+      "name": "Amit Harmony",
+      "profile_image": "https://example.com/images/amit_harmony.jpg",
+      "years_of_experience": 15,
+      "description": "Amit Harmony is a veteran yoga instructor with a deep understanding of traditional yoga practices. With over 15 years of experience, Amit’s ss classes a sanctuary for students seeking balance in body and mind. His teachings are rooted in authenticity and mindfulness.",
+      "available_slots": ["Monday 8:00 AM - 10:00 AM", "Wednesday 9:00 AM - 11:00 AM", "Friday 4:00 PM - 6:00 PM"]
+    }
+  },
+  {
+    "category": "HIIT Training",
+    "trainer": {
+      "name": "Nina Blast",
+      "profile_image": "https://example.com/images/nina_blast.jpg",
+      "years_of_experience": 5,
+      "description": "Nina Blast is an en HIIT (High-Intensity Interval Training) instructor who brings a dynamic maximize their workout efficiency. Nina’s infectious energy and commitment to her clients’ progress make her HIIT classes both effective and enjoyable, .",
+      "available_slots": ["Tuesday 7:00 AM - 9:00 AM", "Thursday 5:00 PM - 7:00 PM", "Saturday 8:00 AM - 10:00 AM"]
+    }
+  }
+]
