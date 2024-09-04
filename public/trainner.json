@@ -46,7 +46,8 @@
       "profile_image": "https://example.com/images/amit_harmony.jpg",
       "years_of_experience": 15,
       "description": "Amit Harmony is a veteran yoga instructor with a deep understanding of traditional yoga practices. With over 15 years of experience, Amit’s ss classes a sanctuary for students seeking balance in body and mind. His teachings are rooted in authenticity and mindfulness.",
-      "available_slots": ["Monday 8:00 AM - 10:00 AM", "Wednesday 9:00 AM - 11:00 AM", "Friday 4:00 PM - 6:00 PM"]
+      "available_slots":
+       ["Monday 8:00 AM - 10:00 AM", "Wednesday 9:00 AM - 11:00 AM", "Friday 4:00 PM - 6:00 PM"]
     }
   },
   {

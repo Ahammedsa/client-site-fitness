@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const TrainnerCard = ({ item }) => {
 
@@ -8,7 +9,7 @@ const TrainnerCard = ({ item }) => {
            <div className='grid lg:grid-cols-2  gap-10   bg-slate-100 shadow-xl'>
            <div className='mt-10'> <figure>
                 <img
-                    className='rounded-xl w-full'
+                    className='rounded-xl w-full m-5'
                     src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.webp"
                     alt="Movie" />
             </figure>
@@ -28,7 +29,7 @@ const TrainnerCard = ({ item }) => {
                         </ul>
 
                 <div className=" ">
-                <button className="btn bg-slate-400 w-full">Know more</button>
+                <Link  to={`/trainer-details/${item?._id}`} className="btn bg-slate-400 w-full">Know more</Link>
              
             </div>
             </div>
