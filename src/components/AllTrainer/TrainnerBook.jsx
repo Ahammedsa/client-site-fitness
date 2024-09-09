@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Container from "../Shared/Container";
 import useAxiosCommon from '../../hooks/useAxiosCommon';
 import { useQuery } from '@tanstack/react-query';
@@ -7,36 +7,43 @@ import LoadingSpinner from '../Shared/LoadingSpinner';
 
 
 const TrainnerBook = () => {
-    const location = useLocation();
-    const { id } = useParams()
-    console.log(id)
-    const { slot, trainer } = location.state || {}; // Destructure slot and trainerName from state
-    console.log(trainer)
-    const axiosCommon = useAxiosCommon()
-    const { data: trainner = {}, isLoading } = useQuery({
-        // 35 number id is a dependecy id  if  it will late or change id you call full 
-        queryKey: ['trainner', id],
-        queryFn: async () => {
-            const { data } = await axiosCommon.get(`/trainnerDetails/${id}`)
-            return data
-        }
-    })
-    if (isLoading) return < LoadingSpinner
-    />
-    console.log(trainner)
-    return (
-      <div className="bg-gray-100 h-5/6 py-10">
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { id } = useParams()
+  console.log(id   )
+  const { slot, trainer } = location.state || {}; // Destructure slot and trainerName from state
+  console.log(trainer)
+  const axiosCommon = useAxiosCommon()
+  const { data: trainner = {}, isLoading } = useQuery({
+    // 35 number id is a dependecy id  if  it will late or change id you call full 
+    queryKey: ['trainner', id],
+    queryFn: async () => {
+      const { data } = await axiosCommon.get(`/trainnerDetails/${id}`)
+      return data
+    }
+  })
+  if (isLoading) return < LoadingSpinner
+  />
+  console.log(trainner)
+  const joinNowHandler = (price, plan ,slot) => {
+    // Save price and plan in localStorage
+    localStorage.setItem('selectedPrice', price);
+    localStorage.setItem('selectedPlan', plan);
+    localStorage.setItem('selectedSlot', slot);
+   
+    navigate(`/payment/${id}`);
+  };
+  return (
+    <div className="bg-gray-100 h-5/6 py-10">
       <Container>
         <h1 className="text-3xl font-bold text-center mb-10 w-9/12 mx-auto">Trainer Booked Page</h1>
-        
         <div className="grid grid-cols-7 gap-5">
-    
           <div className="col-span-2  bg-base-100 shadow-xl flex flex-col justify-between">
             <div className="p-5">
-              <h2 className=" text-2xl font-bold">Name: {trainer.trainer.name}</h2>
-              <h3 className="text-xl">Class: {trainer.category}</h3>
+              <h2 className=" text-2xl font-bold">Name: {trainer?.trainner?.name}</h2>
+              <h3 className="text-xl">Class: {trainer?.category}</h3>
               <p className="text-lg">Selected slot: <br />
-               {slot}</p>
+                {slot}</p>
             </div>
             <figure className="px-6">
               <img
@@ -45,9 +52,7 @@ const TrainnerBook = () => {
                 className="rounded-xl"
               />
             </figure>
-            <div className="p-6">
-              <button className="btn btn-success w-full text-white">Join now</button>
-            </div>
+         <div></div>
           </div>
 
           {/* Membership Plans Section - 65% of the viewport */}
@@ -69,8 +74,8 @@ const TrainnerBook = () => {
                       <li>Use of cardio and strength training equipment.</li>
                       <li>Access to locker rooms and showers.</li>
                     </ul>
-                    <div className=" justify-end">
-                      <button className="btn btn-primary">Select</button>
+                    <div className="p-11">
+                      <button  onClick={() => joinNowHandler(10 ,"Basic" , slot)} className="btn btn-success w-full text-white">Join now</button>
                     </div>
                   </div>
                 </div>
@@ -85,8 +90,8 @@ const TrainnerBook = () => {
                       <li>Access to group fitness classes such as yoga, spinning, and Zumba.</li>
                       <li>Use of additional amenities like a sauna or steam room.</li>
                     </ul>
-                    <div className=" justify-end">
-                      <button className="btn btn-primary">Select</button>
+                    <div className="p-10">
+                      <button onClick={() => joinNowHandler(50 ,"Standard" , slot)} className="btn btn-success w-full text-white">Join now</button>
                     </div>
                   </div>
                 </div>
@@ -101,20 +106,20 @@ const TrainnerBook = () => {
                       <li>Access to personal training sessions with certified trainers.</li>
                       <li>Discounts on additional services such as massage therapy or nutrition counseling.</li>
                     </ul>
-                    <div className=" justify-end">
-                      <button className="btn btn-primary">Select</button>
+                    <div className="p-6">
+                      <button onClick={() => joinNowHandler(100 ,"Premimum" , slot)}  className="btn btn-success w-full text-white">Join now</button>
                     </div>
                   </div>
                 </div>
               </div>
 
-           
+
             </div>
           </div>
         </div>
       </Container>
     </div>
-    );
+  );
 };
 
 export default TrainnerBook;

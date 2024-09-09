@@ -23,7 +23,7 @@ const TrainnerCard = ({ item }) => {
                 <p className='text-sm'>i am  works in this sector more than <br />  <span className='text-lg font-semibold'>{item?.trainer?.years_of_experience}</span>     years</p>
                 <p>Available Slots:</p>
                         <ul className='flex flex-col gap-1'>
-                            {item.trainer.available_slots.map((slot, idx) => (
+                            {item?.trainer?.available_slots.map((slot, idx) => (
                                 <li  className='bg-slate-200 rounded-md' key={idx}>{slot}</li>
                             ))}
                         </ul>

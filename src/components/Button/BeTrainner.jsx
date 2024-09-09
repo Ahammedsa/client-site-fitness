@@ -1,37 +1,21 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 import useAuth from '../../hooks/useAuth';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
-import { useMutation } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 
-const BeATrainerPage = () => {
-  const [loading, setLoading] = useState(false);
-  const { user } = useAuth();
-  const axiosSecure = useAxiosSecure();
+const BeTrainner= ({
+  daysOptions,
+  formData,
+  setFormData,
 
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: user?.email, // Assuming email is read-only and fetched from the user context
-    age: '',
-    profileImage: null,
-    skills: [],
-    availableDays: [],
-    availableTime: '',
-    otherInfo: '',
-    status: 'pending',
-  });
-
-  const daysOptions = [
-    { value: 'Sunday', label: 'Sunday' },
-    { value: 'Monday', label: 'Monday' },
-    { value: 'Tuesday', label: 'Tuesday' },
-    { value: 'Wednesday', label: 'Wednesday' },
-    { value: 'Thursday', label: 'Thursday' },
-    { value: 'Friday', label: 'Friday' },
-    { value: 'Saturday', label: 'Saturday' },
-  ];
-
+  handleSelectChange,
+  loading,
+  setLoading,
+  handleSubmit,
+  imagePreview,
+  handleImages,
+  iamgeText
+}) => {
+  const {user} = useAuth()
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (type === 'checkbox') {
@@ -41,6 +25,7 @@ const BeATrainerPage = () => {
           ? [...prevState.skills, value]
           : prevState.skills.filter((skill) => skill !== value),
       }));
+
     } else if (type === 'file') {
       setFormData((prevState) => ({
         ...prevState,
@@ -52,81 +37,16 @@ const BeATrainerPage = () => {
         [name]: value,
       }));
     }
-  };
-
-  const handleSelectChange = (selectedOptions) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      availableDays: selectedOptions ? selectedOptions.map(option => option.value) : [],
-    }));
-  };
-
-  const { mutateAsync } = useMutation({
-    mutationFn: async (trainerData) => {
-      const { data } = await axiosSecure.post(`/trainners`, trainerData);
-      return data;
-    },
-    onSuccess: () => {
-      console.log("Data Saved Successfully");
-      toast.success("Application Submitted Successfully");
-      setLoading(false);
-    },
-    onError: (error) => {
-      toast.error(`Error: ${error.message}`);
-      setLoading(false);
-    }
-  });
-
-  const imageUpload = async (imageFile) => {
-    const formData = new FormData();
-    formData.append('file', imageFile);
-    formData.append('upload_preset', 'your_upload_preset'); // Replace with your upload preset
-    formData.append('cloud_name', 'your_cloud_name'); // Replace with your Cloudinary cloud name
-    const response = await fetch('https://api.cloudinary.com/v1_1/your_cloud_name/image/upload', {
-      method: 'POST',
-      body: formData,
-    });
-  
-    if (!response.ok) {
-      throw new Error('Image upload failed');
-    }
-    const data = await response.json();
-    return data.secure_url; // Return the URL of the uploaded image
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      const image_url = await imageUpload(formData?.profileImage);
-      const saveformData = {
-        fullName: formData?.fullName,
-        email: formData?.email,
-        age: formData?.age,
-        profileImage: image_url,
-        skills: formData?.skills,
-        availableDays: formData?.availableDays,
-        availableTime: formData?.availableTime,
-        otherInfo: formData?.otherInfo,
-        status: 'pending',
-      };
-
-      console.table(saveformData);
-      await mutateAsync(saveformData);
-    } catch (err) {
-      toast.error(err.message);
-      console.log(err);
-      setLoading(false);
-    }
+    setLoading(false)
   };
 
   return (
-    <div className="container mx-auto my-10">
+    <div className="container mx-auto my-10  ">
       <div className="card bg-base-100 shadow-xl p-8 w-7/12 mx-auto">
         <h2 className="text-3xl font-bold mb-8 text-center">Be a Trainer</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
 
+          {/* Full Name */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">Full Name</span>
@@ -141,6 +61,7 @@ const BeATrainerPage = () => {
             />
           </div>
 
+          {/* Email (Read-only) */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">Email</span>
@@ -154,6 +75,7 @@ const BeATrainerPage = () => {
             />
           </div>
 
+          {/* Age */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">Age</span>
@@ -168,25 +90,38 @@ const BeATrainerPage = () => {
             />
           </div>
 
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Profile Image</span>
-            </label>
-            <input
-              type="file"
-              name="profileImage"
-              onChange={handleInputChange}
-              className="file-input file-input-bordered w-full input-success"
-              required
-            />
+          {/* Profile Image Upload */}
+          <div className='p-4 bg-white w-full m-auto rounded-lg flex justify-between items-center'>
+            <div className='file_upload px-5 py-3 relative border-4 border-dotted border-gray-300 rounded-lg'>
+              <div className='flex flex-col w-max mx-auto text-center'>
+                <label>
+                  <input
+                    className='text-sm cursor-pointer w-36 hidden'
+                    type='file'
+                    name='profileImage'
+                    onChange={e => handleImages(e.target.files[0])}
+                    id='image'
+                    accept='image/*'
+                    hidden
+                  />
+                  <div className='bg-rose-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-rose-500'>
+                    {/* Ensure iamgeText is always a string */}
+                    {iamgeText?.length > 20 ? iamgeText.split('.')[0].slice(0, 15) + '...' + iamgeText.split('.')[1] : iamgeText || "Upload image"}
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div className='h-16 w-16 object-cover overflow-hidden flex items-center'>
+              {imagePreview && <img src={imagePreview} alt="" />}
+            </div>
           </div>
 
+          {/* Skills (Checkboxes) */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">Skills</span>
             </label>
             <div className="flex flex-wrap gap-4">
-              {/* Checkbox inputs for skills */}
               <label className="flex items-center">
                 <input
                   type="checkbox"
@@ -229,7 +164,47 @@ const BeATrainerPage = () => {
               </label>
             </div>
           </div>
+          {/* Membership CheckBox (Checkboxes) */}
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Membership Plan</span>
+            </label>
+            <div className="flex flex-wrap gap-4">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  name="memberShipPlan"
+                  value="Basic"
+                  onChange={handleInputChange}
+                  className="checkbox checkbox-success"
+                />
+                <span className="ml-2">Standard</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  name="memberShipPlan"
+                  value="Standard"
+                  onChange={handleInputChange}
+                  className="checkbox checkbox-success"
+                />
+                <span className="ml-2">Standard</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  name="memberShipPlan"
+                  value="Fitness Running"
+                  onChange={handleInputChange}
+                  className="checkbox checkbox-success"
+                />
+                <span className="ml-2">Premimum</span>
+              </label>
+              
+            </div>
+          </div>
 
+          {/* Available Days (React Select) */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">Available Days</span>
@@ -244,6 +219,7 @@ const BeATrainerPage = () => {
             />
           </div>
 
+          {/* Available Time */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">Available Time</span>
@@ -259,21 +235,13 @@ const BeATrainerPage = () => {
             />
           </div>
 
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Other Info</span>
-            </label>
-            <textarea
-              name="otherInfo"
-              value={formData.otherInfo}
-              onChange={handleInputChange}
-              className="textarea textarea-bordered w-full"
-              placeholder="Enter any additional information"
-            />
-          </div>
+          {/* Other Info */}
+        
+        
 
-          <button type="submit" className="btn btn-success w-full text-white">
-            {loading ? 'Submitting...' : 'Apply'}
+          {/* Submit Button */}
+          <button type="submit" className="btn btn-primary">
+            {loading ? 'Submitting...' : 'Submit'}
           </button>
         </form>
       </div>
@@ -281,4 +249,4 @@ const BeATrainerPage = () => {
   );
 };
 
-export default BeATrainerPage;
+export default BeTrainner;

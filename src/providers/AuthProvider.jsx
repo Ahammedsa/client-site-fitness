@@ -11,6 +11,7 @@ import {
   signOut,
   updateProfile,
 } from 'firebase/auth'
+import axios from "axios"
 import { app } from '../firebase/firebase.config'
 
 export const AuthContext = createContext(null)
@@ -53,12 +54,34 @@ const AuthProvider = ({ children }) => {
       photoURL: photo,
     })
   }
-
+   // get token from the  server  
+   const getToken = async email => {
+    const {data} = await axios.post(
+      `${import.meta.env.VITE_API_URL}/jwt` ,
+      {email} ,
+      {withCredentials : true}
+    )
+    return data
+  }
+  // save user 
+  const saveUser = async user => {
+    const currentUser  = {
+      email : user?.email ,
+      role :"member" ,
+      status : "Verified"
+    }
+    const {data} = await axios.put(`${import.meta.env.VITE_API_URL}/user` , currentUser)
+    return data 
+   }
   // onAuthStateChange
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
       setUser(currentUser)
-      console.log('CurrentUser-->', currentUser)
+       if(currentUser) {
+        getToken(currentUser.email)
+        saveUser(currentUser)
+       }
+    
       setLoading(false)
     })
     return () => {
@@ -77,7 +100,9 @@ const AuthProvider = ({ children }) => {
     logOut,
     updateUserProfile,
     indexNumberOFsolt,
-    setindexNumberOFsolt
+    setindexNumberOFsolt , 
+ 
+
   }
 
   return (

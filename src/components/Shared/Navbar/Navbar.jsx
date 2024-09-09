@@ -13,6 +13,7 @@ import toast from 'react-hot-toast';
 const Navbar = () => {
   const axiosSecure = useAxiosSecure();
   const { user, logOut } = useAuth();
+  console.log(user)
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setisModalOpen] = useState(false);
 
