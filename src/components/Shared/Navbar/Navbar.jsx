@@ -61,8 +61,9 @@ const Navbar = () => {
             <div className='navbae-center flex'>
               <Link to='/all-trainer' className='btn btn-ghost text-sm'>
                 All Trainer
-              </Link>
-              <a className='btn btn-ghost text-sm'>All Class</a>
+              </Link>  
+              <Link to='/all-class' className='btn btn-ghost text-sm'>All Class</Link>
+            
               <a className='btn btn-ghost text-sm'>Community</a>
             </div>
 

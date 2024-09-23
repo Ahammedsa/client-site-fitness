@@ -6,7 +6,6 @@ const BeTrainner= ({
   daysOptions,
   formData,
   setFormData,
-
   handleSelectChange,
   loading,
   setLoading,

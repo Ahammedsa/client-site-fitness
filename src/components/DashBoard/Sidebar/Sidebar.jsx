@@ -78,7 +78,7 @@ const Sidebar = () => {
           {/* Nav Items */}
           <div className='flex flex-col justify-between flex-1 mt-6'>
             {/* Conditional toggle button here.. */}
-             {role === "host"  && <ToggleBtn toggleHandler={toggleHandler}  toggle={toggle}></ToggleBtn>}
+             {role === "trainner"  && <ToggleBtn toggleHandler={toggleHandler}  toggle={toggle}></ToggleBtn>}
             {/*  Menu Items */}
             <nav>
               {/* Statistics */}
@@ -89,12 +89,14 @@ const Sidebar = () => {
 
                 </MenuItem>
 
-                  {role === "guest" && 
+                  {role === "member" && 
                     <MemberMenu></MemberMenu>}
-                  {role === "host" ? toggle ? <TrainnerMenu> </TrainnerMenu> : <Memberjsx></Memberjsx> : undefined
+                  {role === "trainner" ? toggle ? <TrainnerMenu> </TrainnerMenu> : <Memberjsx></Memberjsx> : undefined
                     }
-                  {/* {role === "admin" &&  */}
-                    {<AdminMenu></AdminMenu>}
+                  { role === "admin" &&  
+                    <AdminMenu></AdminMenu>}
+
+                    
               {/* <NavLink
                 to='addroom'
                 className={({ isActive }) =>

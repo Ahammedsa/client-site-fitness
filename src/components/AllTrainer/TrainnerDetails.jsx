@@ -51,7 +51,7 @@ const TrainnerDetails = () => {
                                 <button className="btn btn-primary">Buy Now</button>
                             </div> */}
                             <div className=''>
-                                <Link to='/be-trainner' className='btn btn-success w-6/12 '>Be a trainner</Link>
+                                <Link to='/be-trainner-page' className='btn btn-success w-6/12 '>Be a trainner</Link>
                             </div>
                         </div>
 

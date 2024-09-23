@@ -1,75 +1,75 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import useAuth from '../../hooks/useAuth';
+import { imageUpload } from '../../api/index';
+
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+import { useMutation } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import AddNewClassForm from './AddNewClassForm';
 
 const AddNewClass = () => {
+  const navigate  = useNavigate()
+  const [loading , setLoading ] = useState(false)
+  const axiosSecure = useAxiosSecure()
+  const {user} = useAuth() 
+  console.log(user)
+  const [imagePreview , setImagePreview] = useState()
+   const [iamgeText , setImageText] = useState("Upload image")
+    // 
+    const {mutateAsync} = useMutation({
+      mutationFn : async classData => {
+        const {data} = await axiosSecure.post(`/class` , classData)
+      return data
+      } ,
+      onSuccess : () => {
+        console.log("Data  Shaved Successfully")
+         toast.success("Clss Added Successfully")
+         navigate('/dashboard')
+        setLoading(false)
+      }
+     })
+     // form handler
+     const handleSubmit = async e => {
+      setLoading(true)
+       e.preventDefault()
+       const form = e.target 
+       const classNames  = form.classNames.value 
+       const details = form.details.value 
+       const additionalInfo = form.additionalInfo.value  
+       const image = form.image.files[0] 
+        try{
+            const image_url = await imageUpload(image) 
+            const classData = {
+                 classNames , details , additionalInfo , image  : image_url
+            }
+            console.table(classData)
+            //  Post request to server 
+            await mutateAsync((classData))
+        }catch(err){
+          toast.error(err.message)
+            console.log(err)
+            setLoading(false)
+        }
+     }
+     // 
+       const handleImages = image => {
+         setImagePreview(URL.createObjectURL(image))
+         setImageText(image.name)
+       }
     return (
-
-        <div className="container mx-auto p-6">
-        {/* Header Section */}
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Add New Class</h1>
-          <a href="/admin/classes" className="btn btn-outline">Back</a>
-        </div>
-  
-        {/* Class Form */}
-        <form className="bg-white p-8 rounded-lg shadow-md space-y-6">
-          {/* Class Name */}
-          <div>
-            <label className="label">
-              <span className="label-text">Class Name</span>
-            </label>
-            <input
-              type="text"
-              name="className"
-              placeholder="Enter class name"
-              className="input input-bordered w-full"
-            />
-          </div>
-  
-          {/* Class Image */}
-          <div>
-            <label className="label">
-              <span className="label-text">Upload Class Image</span>
-            </label>
-            <input
-              type="file"
-              name="classImage"
-              className="file-input file-input-bordered w-full"
-            />
-          </div>
-  
-          {/* Class Details */}
-          <div>
-            <label className="label">
-              <span className="label-text">Class Details</span>
-            </label>
-            <textarea
-              name="details"
-              placeholder="Enter class details"
-              className="textarea textarea-bordered w-full"
-            />
-          </div>
-  
-          {/* Additional Info */}
-          <div>
-            <label className="label">
-              <span className="label-text">Additional Information</span>
-            </label>
-            <textarea
-              name="additionalInfo"
-              placeholder="Enter any additional information"
-              className="textarea textarea-bordered w-full"
-            />
-          </div>
-  
-          {/* Form Actions */}
-          <div className="flex justify-end space-x-4">
-            <button type="reset" className="btn btn-outline">Cancel</button>
-            <button type="submit" className="btn btn-primary">Add Class</button>
-          </div>
-        </form>
-      </div>
-
-
+        <>
+         <AddNewClassForm
+         handleSubmit={handleSubmit}
+         setImagePreview={setImagePreview}
+         imagePreview={imagePreview}
+         handleImages={handleImages}
+         iamgeText={iamgeText}
+         loading={loading}
+         
+         ></AddNewClassForm>
+        </>
     );
 };
 
