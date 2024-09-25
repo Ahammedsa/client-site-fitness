@@ -32,7 +32,7 @@ const HostModal = ({ modalHandler, closeModal, isOpen, email }) => {
                   as='h3'
                   className='text-lg font-medium text-center leading-6 text-gray-900'
                 >
-                  Become A Host!
+                  Become A Trainner!
                 </Dialog.Title>
                 <div className='mt-2'>
                   <p className='text-sm text-gray-500'>

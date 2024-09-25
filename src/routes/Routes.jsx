@@ -18,6 +18,7 @@ import ManageUsers from '../components/DashBoard/Admin/ManageUsers'
 import AdminRoute from './AdminRoute'
 import AllTrainerInAdmin from '../components/DashBoard/Trainner/AllTrainerInAdmin'
 import AppliedTrainner from '../components/DashBoard/Trainner/AppliedTrainner'
+import Details from '../components/DashBoard/Admin/Details'
 
 export const router = createBrowserRouter([
   {
@@ -54,6 +55,11 @@ export const router = createBrowserRouter([
       {
         path: 'applied-trainner',
         element: <AdminRoute> <AppliedTrainner></AppliedTrainner> </AdminRoute>
+      },
+      {
+        path: "user-details/:id" ,
+        element : <AdminRoute> <Details></Details></AdminRoute> 
+     
       }
     ]
   },
@@ -65,7 +71,7 @@ export const router = createBrowserRouter([
   { path: "/be-trainner-page", element: <BeTarainnerPage></BeTarainnerPage> },
   { path: "/all-class",
      element: <AllClass></AllClass> ,
-     loader :() => fetch('http://localhost:5000/classCount')
+     loader :() => fetch('https://the-fitness-server.vercel.app/classCount')
     },
   {
     path: "/payment/:id",

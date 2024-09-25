@@ -3,13 +3,13 @@ import useAuth from '../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import toast from 'react-hot-toast';
 import { imageUpload } from '../../api/index';
-import BeTrainerPageForm from './BeTrainerPageForm'; // Import the form component
+import BeTrainerPageForm from './BeTrainerPageForm';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from "../Shared/LoadingSpinner";
 
 const BeATrainerPage = () => {
   const [loading, setLoading] = useState(false);
-  const { user } = useAuth(); // get the user info, including email
+  const { user } = useAuth(); 
   const axiosSecure = useAxiosSecure();
   const [imagePreview, setImagePreview] = useState();
   const [imageText, setImageText] = useState('Upload image');
@@ -24,8 +24,7 @@ const BeATrainerPage = () => {
 
   const [formData, setFormData] = useState({
     fullName: '',
-    email: user?.email, // Assuming email is read-only and fetched from the user context
-    age: '',
+    email: user?.email, 
     profileImage: null,
     skills: [],
     availableDays: [],
@@ -85,12 +84,12 @@ const BeATrainerPage = () => {
   };
 
   const { data: users = [], isLoading } = useQuery({
-    queryKey: ['users', user?.email],  // Corrected email usage
+    queryKey: ['users', user?.email], 
     queryFn: async () => {
-      const { data } = await axiosSecure(`/users?email=${user?.email}`);  // Use user?.email
+      const { data } = await axiosSecure(`/users?email=${user?.email}`); 
       return data;
     },
-    enabled: !!user?.email,  // Make sure the query only runs when the user email exists
+    enabled: !!user?.email,  
   });
 
   console.log(users);
@@ -105,26 +104,26 @@ const BeATrainerPage = () => {
       const image_url = await imageUpload(image);
       const saveFormData = {
         fullName: formData?.fullName,
-        email: users?.email,
+        email: user?.email,   
         age: formData?.age,
         profileImage: image_url,
         skills: formData?.skills,
-        role: users?.role,
+        role: user?.role,    
         availableDays: formData?.availableDays,
         availableTime: formData?.availableTime,
         otherInfo: formData?.otherInfo,
         status: 'Requested',
       };
-
+      
       const { data } = await axiosSecure.put(`/user`, saveFormData);
       console.log(data);
-
+  
       if (data.modifiedCount > 0) {
         toast.success('Success! Please wait for admin confirmation');
       } else {
         toast.success('Please wait for admin approval');
       }
-
+  
       return data;
     } catch (err) {
       toast.error(err.message);
@@ -156,10 +155,12 @@ const BeATrainerPage = () => {
           handleImages={handleImages}
           applyForTrainer={applyForTrainer}
           closeModal={closeModal}
-          isOpen={isOpen}
+          isOpen={isModalOpen}
           isModalOpen={isModalOpen}
           setisModalOpen={setisModalOpen}
           modalHandler={modalHandler}
+          users={users}
+       
         />
       </div>
     </div>

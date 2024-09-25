@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import { useState } from "react";
 import useAuth from "./useAuth";
 import useAxiosSecure from "./useAxiosSecure";
@@ -6,7 +6,7 @@ import {useQuery }from "@tanstack/react-query"
 
 const useRole = () => {
     const {user , loading} = useAuth() 
-    
+     console.log(user)
     const axiosSecure  = useAxiosSecure()
     
     console.log(user)
@@ -28,3 +28,4 @@ const useRole = () => {
 };
 
 export default useRole;
+
