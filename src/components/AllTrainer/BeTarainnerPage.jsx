@@ -17,7 +17,7 @@ const BeATrainerPage = () => {
   const [isModalOpen, setisModalOpen] = useState(false);
 
   console.log(user?.email);
-
+  console.log(isModalOpen)
   const closeModal = () => {
     setisModalOpen(false);
   };
@@ -96,12 +96,28 @@ const BeATrainerPage = () => {
 
   if (isLoading) return <LoadingSpinner />;
 
+  const mutation = useMutation({
+    mutationFn: async  role => {
+      const { data } = await axiosSecure.patch(`/users/update/${user?.email}`, role);
+      return data;
+    },
+    onSuccess: data => {
+      refetch();
+      toast.success("User role updated successfully");
+      setIsOpen(false);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+  
   const modalHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const image = formData?.profileImage;
       const image_url = await imageUpload(image);
+      // Prepare the form data with the new fields
       const saveFormData = {
         fullName: formData?.fullName,
         email: user?.email,   
@@ -112,18 +128,17 @@ const BeATrainerPage = () => {
         availableDays: formData?.availableDays,
         availableTime: formData?.availableTime,
         otherInfo: formData?.otherInfo,
-        status: 'Requested',
+        status: 'Requested',  // Set the status to Requested
       };
-      
-      const { data } = await axiosSecure.put(`/user`, saveFormData);
+      console.log("saveFormData", saveFormData);
+      // Send the updated data to the backend via the PUT request
+      const { data } = await axiosSecure.patch(`/user/update`, saveFormData);
       console.log(data);
-  
       if (data.modifiedCount > 0) {
         toast.success('Success! Please wait for admin confirmation');
       } else {
         toast.success('Please wait for admin approval');
       }
-  
       return data;
     } catch (err) {
       toast.error(err.message);
@@ -132,7 +147,7 @@ const BeATrainerPage = () => {
       setLoading(false);
     }
   };
-
+  
   const applyForTrainer = () => {
     setLoading(true);
     mutation.mutate();

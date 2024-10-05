@@ -8,12 +8,13 @@ import { BsGraphUp } from 'react-icons/bs'
 import { NavLink } from 'react-router-dom'
 import useAuth from '../../../hooks/useAuth'
 import { Link } from 'react-router-dom'
-import useRole from '../../../hooks/useRole'
+
 import  TrainnerMenu from '../Trainner/TrainnerMenu'
 import MemberMenu from '../Member/MemberMenu'
 import AdminMenu from '../Admin/AdminMenu'
 import MenuItem from '../Sidebar/MenuItem'
 import ToggleBtn from '../../Button/ToggleBtn'
+import useRole from '../../../hooks/useRole'
 
 const Sidebar = () => {
   const [role] = useRole()

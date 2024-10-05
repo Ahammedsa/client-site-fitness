@@ -197,7 +197,7 @@ const
             {/* Submit Button */}
             <div className="form-control mt-6">
               <button
-                onClick={() => setisModalOpen(true)}
+                onClick={() => setisModalOpen(!isModalOpen)}
                 disabled={loading || user?.role === 'requested' || user?.role === 'trainer'}
                 className={`py-3 px-4 text-sm font-semibold rounded-full transition ${loading || user?.role === 'requested' || user?.role === 'trainer' ? 'bg-gray-400 cursor-not-allowed' : 'hover:bg-neutral-100 cursor-pointer'}`}
               >

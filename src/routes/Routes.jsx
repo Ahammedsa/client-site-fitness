@@ -9,7 +9,7 @@ import AllTrainer from '../components/AllTrainer/AllTrainer'
 import TrainnerDetails from '../components/AllTrainer/TrainnerDetails'
 import TrainnerBook from '../components/AllTrainer/TrainnerBook'
 
-import BeTarainnerPage from '../components/AllTrainer/BeTarainnerPage'
+
 import PaymentPage from '../components/Payment/PaymentPage'
 import DashBoardLayout from '../components/DashBoard/DashBoardLayout'
 import Profile from '../components/DashBoard/Profile'
@@ -19,6 +19,7 @@ import AdminRoute from './AdminRoute'
 import AllTrainerInAdmin from '../components/DashBoard/Trainner/AllTrainerInAdmin'
 import AppliedTrainner from '../components/DashBoard/Trainner/AppliedTrainner'
 import Details from '../components/DashBoard/Admin/Details'
+import BeTrainnerPage2 from '../components/AllTrainer/BeTrainnerPage2'
 
 export const router = createBrowserRouter([
   {
@@ -68,7 +69,7 @@ export const router = createBrowserRouter([
   { path: '/trainer-details/:id', element: <TrainnerDetails></TrainnerDetails> },
   { path: '/trainner-book/:id', element: <TrainnerBook></TrainnerBook> },
   // { path: "/beTrainner-fun", element: <BeTrainnerFun></BeTrainnerFun> },
-  { path: "/be-trainner-page", element: <BeTarainnerPage></BeTarainnerPage> },
+  { path: "/be-trainner-page", element: <BeTrainnerPage2></BeTrainnerPage2> },
   { path: "/all-class",
      element: <AllClass></AllClass> ,
      loader :() => fetch('https://the-fitness-server.vercel.app/classCount')

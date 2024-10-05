@@ -32,10 +32,7 @@ const TrainnerDetails = () => {
         <div>
             <Container>
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2   mt-10 gap-1 '>
-                    {/* <div className='bg-slate-200 p-5 rounded-md font-semibold text-lg'>
-                        <h1 className='text-center'>Triner Info</h1>
-                        
-                    </div> */}
+                
                     <div className="card bg-base-100 image-full  shadow-xl">
                         <figure>
                             <img

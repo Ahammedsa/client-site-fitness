@@ -1,25 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useAxiosCommon from '../../../hooks/useAxiosCommon';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '../../Shared/LoadingSpinner';
+import UpdateUserModal from '../../Modal/UpdateUserModal';
 
 const Details = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const axiosCommon = useAxiosCommon();
-  console.log('ID from URL:', id); 
+  const [isOpen, setIsOpen] = useState(false);
+  console.log('ID from URL:', id);
   const { data: user = {}, isLoading, error } = useQuery({
-    queryKey: ['users', id], 
+    queryKey: ['users', id],
     queryFn: async () => {
       const { data } = await axiosCommon.get(`/users/${id}`);
       return data;
     },
-  
   });
+  const mutation = useMutation({
+    mutationFn: async  role => {
+      const { data } = await axiosSecure.patch(`/users/update/${user?.email}`, role);
+      return data;
+    },
+    onSuccess: data => {
+      refetch();
+      toast.success("User role updated successfully");
+      setIsOpen(false);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+  const modalHandler = async (selectedRole) => { 
+    if(loggedInUser.email === user.emial) {
+      toast.error("Action not allowed")
+      return setIsOpen(false)
+    }
+  const updatedUser = {
+    role: selectedRole,
+    status: "Verified",
+    
+  };
+  try {
+    await mutation.mutateAsync(updatedUser);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   if (isLoading) return <LoadingSpinner />;
   if (error) return <p className="text-red-500">Failed to load user data</p>;
- console.log(user)
+  console.log(user)
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold text-center mb-6">User Details</h1>
@@ -39,6 +70,24 @@ const Details = () => {
           <li><strong>Status:</strong> {user?.status || 'N/A'}</li>
           <li><strong>Other Info:</strong> {user?.otherInfo || 'N/A'}</li>
         </ul>
+        <div className='flex justify-between w-8/12 mx-auto'>
+          <button className='btn btn-error text-white'>Reject</button>
+          <button onClick={() => {  }} className='btn btn-success text-white'>Confirm</button>
+          <button onClick={() => (setIsOpen(true) ,handleConfirm(user?._id) )} className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'>
+          <span
+            aria-hidden='true'
+            className='absolute inset-0 bg-green-200 opacity-50 rounded-full'
+          ></span>
+          <span className='relative'>Update Role</span>
+        </button>
+          {/* Modal */}
+          <UpdateUserModal
+            modalHandler={modalHandler}
+            isOpen={isOpen}
+            setIsopen={setIsOpen}
+            user={user}
+          />
+        </div>
       </div>
     </div>
   );
