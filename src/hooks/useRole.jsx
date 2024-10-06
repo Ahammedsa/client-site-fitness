@@ -13,7 +13,7 @@ const useRole = () => {
         queryKey :['role', user?.email] ,
         enabled :!loading && !!user?.email ,
         queryFn : async () => {
-            const {data} = await axios.get(`http://localhost:5000/test?email=${user?.email}`)
+            const {data} = await axios.get(`https://the-fitness-server.vercel.app/test?email=${user?.email}`)
             console.log((data))
             return data.role 
         },

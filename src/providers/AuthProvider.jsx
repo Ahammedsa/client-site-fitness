@@ -73,7 +73,7 @@ const AuthProvider = ({ children }) => {
         role :"member" ,
         status : "Verified"
       }
-      const { data } = await axios.put(`http://localhost:5000/new-user`, currentUser);
+      const { data } = await axios.put(`https://the-fitness-server.vercel.app/new-user`, currentUser);
       return data;
     } catch (error) {
       console.error('Error in saveUser:', error.response?.data || error.message);
