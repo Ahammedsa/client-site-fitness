@@ -8,6 +8,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure'
 import useAuth from '../../../hooks/useAuth'
 import toast from 'react-hot-toast'
 import { useState } from 'react'
+import { FaUserCog } from 'react-icons/fa'
 const Member = () => {
   const [role] = useRole()
   const axiosSecure = useAxiosSecure()
@@ -47,9 +48,12 @@ const Member = () => {
         label='My Bookings'
         address='my-bookings'
       />
-
-      {role === 'guest' && (
-        <button onClick={() => setisModalOpen(true)} className='flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform text-gray-600  hover:bg-gray-300   hover:text-gray-700 cursor-pointer'>
+        <MenuItem icon={FaUserCog} label='Profile' address='profile' />
+      {role === 'member' && (
+        <button onClick={() => setisModalOpen(true)}
+         className='flex items-center px-4 py-2 mt-5  transition-colors 
+         duration-300 transform text-gray-600  hover:bg-gray-300 
+           hover:text-gray-700 cursor-pointer'>
           <GrUserAdmin className='w-5 h-5' />
 
           <span className='mx-4 font-medium'>Become A Host</span>

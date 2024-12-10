@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
-import UpdateUserModal from "../../../components/Modal/UpdateUserModal";
 import toast from 'react-hot-toast';
+
 
 
 const UserDataRow = ({ user, refetch }) => {
@@ -19,6 +19,7 @@ const UserDataRow = ({ user, refetch }) => {
       toast.error("User ID not found");
     }
   };
+
 
   return (
     <tr>
@@ -40,25 +41,11 @@ const UserDataRow = ({ user, refetch }) => {
         )}
       </td>
 
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <Link
- 
-          onClick={() => modalHandler(user?.email , user)} // Trigger modalHandler on click
-          className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'
-        >
-          <span
-            aria-hidden='true'
-            className='absolute inset-0 bg-green-200 opacity-50 rounded-full'
-          ></span>
-          <span className='relative'>Details</span>
-        </Link>
-        {/* Modal */}
-        <UpdateUserModal
-          modalHandler={modalHandler}
-          isOpen={isOpen}
-          setIsopen={setIsOpen}
-          user={user}
-        />
+      <td>
+       <Link to={`/dashboard/user-details/${user?._id}`}>
+             Details
+       </Link>
+
       </td>
     </tr>
   );

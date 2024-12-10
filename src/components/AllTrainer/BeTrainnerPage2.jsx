@@ -83,9 +83,7 @@ const BeTrainnerPage2 = () => {
             profileImage: image,
         }));
     };
-
-
-    const { data: users = [], isLoading } = useQuery({
+    const { data: infos = [], isLoading } = useQuery({
         queryKey: ['users', user?.email],
         queryFn: async () => {
             const { data } = await axiosSecure(`/users?email=${user?.email}`);
@@ -93,44 +91,9 @@ const BeTrainnerPage2 = () => {
         },
         enabled: !!user?.email,
     });
-    console.log(users)
+    console.log(infos)
+
     if (isLoading) return <LoadingSpinner />;
-
-    // const modalHandler = async (e) => {
-    //     e.preventDefault();
-    //     setLoading(true);
-    //     try {
-    //         const image = formData?.profileImage;
-    //         const image_url = await imageUpload(image);
-    //         const saveFormData = {
-    //             fullName: formData?.fullName,
-    //             email: user?.email,
-    //             age: formData?.age,
-    //             profileImage: image_url,
-    //             skills: formData?.skills,
-    //             role: user?.role,
-    //             availableDays: formData?.availableDays,
-    //             availableTime: formData?.availableTime,
-    //             otherInfo: formData?.otherInfo,
-    //             status: 'Requested',
-    //         };
-       
-
-    //         const { data } = await axiosSecure.patch(`/changes/update?email=${user?.email}`, saveFormData);
-           
-
-    //         if (data.modifiedCount > 0) {
-    //             toast.success('Success! Please wait for admin confirmation');
-    //         } else {
-    //             toast.success('Please wait for admin approval');
-    //         }
-    //     } catch (err) {
-    //         toast.error(err.message);
-    //     } finally {
-    //         closeModal();
-    //         setLoading(false);
-    //     }
-    // };
     const modalHandler = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -152,7 +115,6 @@ const BeTrainnerPage2 = () => {
     
             // Corrected URL
             const { data } = await axioscommon.patch(`/changes/update/${user?.email}`, saveFormData);
-    
             if (data.modifiedCount > 0) {
                 toast.success('Success! Please wait for admin confirmation');
             } else {

@@ -16,7 +16,7 @@ const AllClass = () => {
   
   
   useEffect(() => {
-    fetch(`https://the-fitness-server.vercel.app/class?page=${currentPage}&&size=${itemsPerPage}`)
+    fetch(`http://localhost:5000/class?page=${currentPage}&&size=${itemsPerPage}`)
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {

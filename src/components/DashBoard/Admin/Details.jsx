@@ -4,26 +4,29 @@ import useAxiosCommon from '../../../hooks/useAxiosCommon';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '../../Shared/LoadingSpinner';
 import UpdateUserModal from '../../Modal/UpdateUserModal';
+import toast from 'react-hot-toast';
 
 const Details = () => {
   const { id } = useParams();
   const axiosCommon = useAxiosCommon();
   const [isOpen, setIsOpen] = useState(false);
+
   console.log('ID from URL:', id);
-  const { data: user = {}, isLoading, error } = useQuery({
+  const { data: user = {}, isLoading, error, refetch } = useQuery({
     queryKey: ['users', id],
     queryFn: async () => {
       const { data } = await axiosCommon.get(`/users/${id}`);
       return data;
     },
   });
+
   const mutation = useMutation({
-    mutationFn: async  role => {
-      const { data } = await axiosSecure.patch(`/users/update/${user?.email}`, role);
+    mutationFn: async (updatedUser) => {
+      const { data } = await axiosCommon.put(`/random`, updatedUser); 
       return data;
     },
-    onSuccess: data => {
-      refetch();
+    onSuccess: (data) => {
+      refetch(); 
       toast.success("User role updated successfully");
       setIsOpen(false);
     },
@@ -31,23 +34,36 @@ const Details = () => {
       toast.error(error.message);
     },
   });
-  const modalHandler = async (selectedRole) => { 
-    if(loggedInUser.email === user.emial) {
+  
+  const modalHandler = async (selectedRole) => {
+    if (loggedInUser.email === user.emial) {
       toast.error("Action not allowed")
       return setIsOpen(false)
     }
-  const updatedUser = {
-    role: selectedRole,
-    status: "Verified",
-    
-  };
-  try {
-    await mutation.mutateAsync(updatedUser);
-  } catch (error) {
-    console.error(error);
-  }
-};
+    const updatedUser = {
+      role: selectedRole,
+      status: "Verified",
 
+    };
+    try {
+      await mutation.mutateAsync(updatedUser);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const confirmTrainer = async () => {
+    const updatedRole = { role: "trainer", status: "Verified", email: user?.email };
+
+    
+    try {
+      await mutation.mutateAsync(updatedRole); // Perform the role update mutation
+      toast.success("Now you are a trainer!");
+    } catch (error) {
+      console.error("Failed to confirm trainner:", error);
+      toast.error("Failed to confirm trainer.");
+    }
+  };
+  
   if (isLoading) return <LoadingSpinner />;
   if (error) return <p className="text-red-500">Failed to load user data</p>;
   console.log(user)
@@ -72,14 +88,18 @@ const Details = () => {
         </ul>
         <div className='flex justify-between w-8/12 mx-auto'>
           <button className='btn btn-error text-white'>Reject</button>
-          <button onClick={() => {  }} className='btn btn-success text-white'>Confirm</button>
-          <button onClick={() => (setIsOpen(true) ,handleConfirm(user?._id) )} className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'>
-          <span
-            aria-hidden='true'
-            className='absolute inset-0 bg-green-200 opacity-50 rounded-full'
-          ></span>
-          <span className='relative'>Update Role</span>
-        </button>
+          <button onClick={confirmTrainer} className='btn btn-success text-white'>
+            Confirm
+          </button>
+
+          {/* <button onClick={() => (setIsOpen(true), handleConfirm(user?._id))}
+            className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'>
+            <span
+              aria-hidden='true'
+              className='absolute inset-0 bg-green-200 opacity-50 rounded-full'
+            ></span>
+            <span className='relative'>Update Role</span>
+          </button> */}
           {/* Modal */}
           <UpdateUserModal
             modalHandler={modalHandler}

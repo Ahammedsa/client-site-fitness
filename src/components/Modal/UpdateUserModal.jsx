@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react'
 import { Dialog, Listbox, Transition } from '@headlessui/react'
 import { BsCheckLg } from 'react-icons/bs'
 import { AiOutlineDown } from 'react-icons/ai'
-const roles = ['guest', 'host', 'admin']
+const roles = ['trainner']
 
 const UpdateUserModal = ({
   setIsEditModalOpen,

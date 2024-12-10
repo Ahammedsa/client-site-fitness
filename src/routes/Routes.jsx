@@ -20,6 +20,9 @@ import AllTrainerInAdmin from '../components/DashBoard/Trainner/AllTrainerInAdmi
 import AppliedTrainner from '../components/DashBoard/Trainner/AppliedTrainner'
 import Details from '../components/DashBoard/Admin/Details'
 import BeTrainnerPage2 from '../components/AllTrainer/BeTrainnerPage2'
+import PrivateRoute from './PrivateRoute'
+import TrainnerRoute from "../routes/TrainnerRoute"
+import AddNewSlot from '../components/DashBoard/Trainner/AddNewSlot'
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +40,11 @@ export const router = createBrowserRouter([
     path: "/dashboard",
     element: <DashBoardLayout></DashBoardLayout>,
     children: [
+      {
+        path : "/dashboard",
+        element : <h1>Welcome </h1>
+
+      },
       {
         path: 'profile',
         element: <Profile></Profile>
@@ -61,6 +69,11 @@ export const router = createBrowserRouter([
         path: "user-details/:id" ,
         element : <AdminRoute> <Details></Details></AdminRoute> 
      
+      },
+      {
+        path: "add-newSlot" ,
+        element : <TrainnerRoute> <AddNewSlot></AddNewSlot></TrainnerRoute>
+     
       }
     ]
   },
@@ -68,15 +81,16 @@ export const router = createBrowserRouter([
   { path: '/all-trainer', element: <AllTrainer></AllTrainer> },
   { path: '/trainer-details/:id', element: <TrainnerDetails></TrainnerDetails> },
   { path: '/trainner-book/:id', element: <TrainnerBook></TrainnerBook> },
-  // { path: "/beTrainner-fun", element: <BeTrainnerFun></BeTrainnerFun> },
-  { path: "/be-trainner-page", element: <BeTrainnerPage2></BeTrainnerPage2> },
+ 
+  { path: "/be-trainner-page", element: <PrivateRoute><BeTrainnerPage2></BeTrainnerPage2></PrivateRoute> },
   { path: "/all-class",
      element: <AllClass></AllClass> ,
-     loader :() => fetch('https://the-fitness-server.vercel.app/classCount')
+     loader :() => fetch('http://localhost:5000/classCount')
     },
   {
     path: "/payment/:id",
     element: <PaymentPage></PaymentPage> 
+
    
   },
 

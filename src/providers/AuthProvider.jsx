@@ -73,13 +73,14 @@ const AuthProvider = ({ children }) => {
         role :"member" ,
         status : "Verified"
       }
-      const { data } = await axios.put(`https://the-fitness-server.vercel.app/new-user`, currentUser);
+      const { data } = await axios.put(`http://localhost:5000/new-user`, currentUser);
       return data;
     } catch (error) {
       console.error('Error in saveUser:', error.response?.data || error.message);
       throw error;
     }
   }
+  
   // onAuthStateChange
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
@@ -87,7 +88,7 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser)
        if(currentUser) {
         getToken(currentUser.email)
-        saveUser(currentUser)
+        // saveUser(currentUser)
        }
     
       setLoading(false)
