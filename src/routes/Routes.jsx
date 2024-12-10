@@ -85,7 +85,7 @@ export const router = createBrowserRouter([
   { path: "/be-trainner-page", element: <PrivateRoute><BeTrainnerPage2></BeTrainnerPage2></PrivateRoute> },
   { path: "/all-class",
      element: <AllClass></AllClass> ,
-     loader :() => fetch('http://localhost:5000/classCount')
+     loader :() => fetch('https://the-fitness-server.vercel.app/classCount')
     },
   {
     path: "/payment/:id",
